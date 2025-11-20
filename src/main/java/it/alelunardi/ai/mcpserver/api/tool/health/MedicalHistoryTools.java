@@ -1,5 +1,6 @@
 package it.alelunardi.ai.mcpserver.api.tool.health;
 
+import it.alelunardi.ai.mcpserver.api.tool.McpToolProvider;
 import it.alelunardi.ai.mcpserver.domain.health.MedicalHistoryDto;
 import it.alelunardi.ai.mcpserver.mapper.health.MedicalHistoryMapper;
 import it.alelunardi.ai.mcpserver.repository.health.MedicalHistoryRepository;
@@ -9,26 +10,26 @@ import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ai.tool.annotation.Tool;
+import org.springaicommunity.mcp.annotation.McpTool;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class MedicalHistoryTools {
+public class MedicalHistoryTools implements McpToolProvider {
 
     private final MedicalHistoryRepository medicalHistoryRepository;
     private final PatientRepository patientRepository;
     private final MedicalHistoryMapper medicalHistoryMapper;
 
-    @Tool(name = "Get_Patient_full_Medical_History_by_Patient_ID",
+    @McpTool(name = "Get_Patient_full_Medical_History_by_Patient_ID",
             description = "Get Patient full Medical History by real Patient ID")
     public List<MedicalHistory> findByPatientId(Long patientId) {
         log.info("Getting Medical History by Patient Id: {}", patientId);
         return medicalHistoryRepository.findByPatientId(patientId);
     }
 
-    @Tool(name = "Get_Patient_Medical_History_by_Patient_ID_and_Date_Range",
+    @McpTool(name = "Get_Patient_Medical_History_by_Patient_ID_and_Date_Range",
             description = "Get Patient Medical History Patient ID and Date Range")
     public List<MedicalHistory> findByPatientIdAndVisitDateBetween(Long patientId,
             LocalDate startDate,
@@ -37,7 +38,7 @@ public class MedicalHistoryTools {
         return medicalHistoryRepository.findByPatientIdAndVisitDateBetween(patientId, startDate, endDate);
     }
 
-    @Tool(name = "Adding_Patient_new_Medical_History_by_Patient_ID",
+    @McpTool(name = "Adding_Patient_new_Medical_History_by_Patient_ID",
             description = "Adding Patient new Medical History record by real Patient ID")
     public MedicalHistory add(MedicalHistoryDto medicalHistoryDto) {
         var medicalHistoryExistingOptional =
@@ -58,7 +59,7 @@ public class MedicalHistoryTools {
         return medicalHistoryRepository.save(medicalHistory);
     }
 
-    @Tool(name = "Changing_existing_Patient_Medical_History",
+    @McpTool(name = "Changing_existing_Patient_Medical_History",
             description = "Changing existing Patient Medical History record by real Patient ID and Visit Date")
     public MedicalHistory update(MedicalHistoryDto medicalHistoryDto) {
         log.info("Updating Medical History {}", medicalHistoryDto);

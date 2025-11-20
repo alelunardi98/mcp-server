@@ -1,21 +1,22 @@
 package it.alelunardi.ai.mcpserver.api.tool.insurance;
 
+import it.alelunardi.ai.mcpserver.api.tool.McpToolProvider;
 import it.alelunardi.ai.mcpserver.domain.insurance.ClaimDto;
 import it.alelunardi.ai.mcpserver.mapper.insurance.ClaimMapper;
 import it.alelunardi.ai.mcpserver.repository.insurance.ClaimRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.tool.annotation.Tool;
+import org.springaicommunity.mcp.annotation.McpTool;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ClaimTools {
+public class ClaimTools implements McpToolProvider {
 
     private final ClaimRepository repository;
     private final ClaimMapper mapper;
 
-    @Tool(
+    @McpTool(
             name = "claim_analyze",
             description = "Analyze a claim and return util information about it"
     )

@@ -1,15 +1,16 @@
 package it.alelunardi.ai.mcpserver.api.tool.insurance;
 
+import it.alelunardi.ai.mcpserver.api.tool.McpToolProvider;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.tool.annotation.Tool;
+import org.springaicommunity.mcp.annotation.McpTool;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DocumentTools {
+public class DocumentTools implements McpToolProvider {
 
-    @Tool(
+    @McpTool(
             name = "document-extract",
             description = "Extracts key information from a PDF document (mock)"
     )
